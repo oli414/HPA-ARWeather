@@ -5,4 +5,8 @@ De server draait in NodeJS met een lokale MySQL database. Data van Open Weather 
 De app is een Unity app gemaakt met AR Foundation die de location service gebruikt om de lokale weersvoorspellingen op te halen
 
 De server is live voor het testen van de API via het volgende address:
-https://ec2-3-15-240-86.us-east-2.compute.amazonaws.com:3000/weather/51.590432/4.761887
+
+http://ec2-3-15-240-86.us-east-2.compute.amazonaws.com:3000/weather/51.590432/4.761887
+
+Screenshot van de applicatie:
+![App Screenshot](https://i.imgur.com/o5KbbVx.jpg)
