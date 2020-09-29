@@ -9,7 +9,7 @@ const settings = {
     database: {
         host: "localhost",
         user: "root",
-        password: "ArWeatherDB123!@#",
+        password: "",
         database: "arweather"
     }
 }
@@ -48,14 +48,15 @@ class WeatherController {
             }
 
             const date = new Date();
-            const currentEpoch = date.getTime() / 1000;
+            const dateInUtc = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()));
+            const currentEpoch = Math.round(dateInUtc.getTime() / 1000);
             const secondsInHour = 60 * 60;
             const roundedCurrentEpoch = Math.round(currentEpoch / secondsInHour) * secondsInHour;
 
             if (results.length > 0) {
 
                 let firstItem = results[0];
-                if (firstItem.epoch == roundedCurrentEpoch) {
+                if (firstItem.epoch >= roundedCurrentEpoch - 60 * 60) {
                     // The cached data is up-to-date, send it directly to the user
                     const forecast = [];
                     for (let i = 0; i < results.length; i++) {
@@ -81,6 +82,9 @@ class WeatherController {
                     // Turn the JSON data into our own Weather model
                     const openWeatherData = JSON.parse(data);
                     const forecast = [];
+
+                    const currentWeather = Weather.fromOpenWeatherData(latitude, longitude, openWeatherData.current);
+                    forecast.push(currentWeather);
 
                     for (let i = 0; i < openWeatherData.hourly.length; i++) {
                         const hourlyWeather = Weather.fromOpenWeatherData(latitude, longitude, openWeatherData.hourly[i]);
