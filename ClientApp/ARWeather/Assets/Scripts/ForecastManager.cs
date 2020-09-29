@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Android;
 
 [System.Serializable]
 public class Forecast
@@ -43,6 +44,11 @@ public class ForecastManager : MonoBehaviour
             forecastHour.Initialize(i, maxHours);
         }
 
+
+        if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
+        {
+            Permission.RequestUserPermission(Permission.FineLocation);
+        }
 
         // Start location service to find the current location
         Input.location.Start();
